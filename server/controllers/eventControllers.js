@@ -6,7 +6,7 @@ const createEvent = async (req, res, next) => {
     const { title, description, date, location, event_type, max_capacity } =
       req.body;
     const user_id = req.session.user_id;
-    if (!title || !description || !date || !location || !event_type || !max_capacity ) {
+    if (!title || !date || !location || !event_type || !max_capacity ) {
       return res.status(400).send({ message: "Missing required fields" });
     }
     const event = await eventModel.create(

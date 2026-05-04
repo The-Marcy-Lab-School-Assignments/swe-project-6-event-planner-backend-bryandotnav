@@ -16,7 +16,7 @@ const createRsvp = async (req, res, next) => {
 const listRsvps = async (req, res, next) => {
     try {
       const { user_id } = req.session;
-      const rsvps = await rsvpModel.list(user_id);
+      const rsvps = await rsvpModel.listByUser(user_id);
       res.status(200).send(rsvps);
     } catch (err) {
       next(err);

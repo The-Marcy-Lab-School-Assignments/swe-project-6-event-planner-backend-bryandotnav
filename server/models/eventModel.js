@@ -42,7 +42,7 @@ module.exports.listByUser = async (user_id) => {
             COUNT(rsvps.user_id) AS rsvp_count
         FROM events
         JOIN users ON events.user_id = users.user_id
-        LEFT JOIN rsvps ON events.event_id = rspvs.event_id
+        LEFT JOIN rsvps ON events.event_id = rsvps.event_id
         Where events.user_id = $1
         GROUP BY events.event_id, users.user_id
         ORDER BY events.event_id
@@ -87,14 +87,14 @@ module.exports.create = async (title, description, date, location, event_type, m
         RETURNING *
         `;
     const { rows } = await pool.query(query, [title, description, date, location, event_type, max_capacity, user_id]);
-    return rows;
+    return rows[0];
 };
 
 module.exports.update = async (event_id, title, description, date, location, event_type, max_capacity) => {
     const query = `
         UPDATE events
         SET title = $1,
-            description = $2
+            description = $2,
             date = $3,
             location = $4,
             event_type = $5,

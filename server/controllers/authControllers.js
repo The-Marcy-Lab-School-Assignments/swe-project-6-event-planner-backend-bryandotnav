@@ -15,7 +15,7 @@ const register = async (req, res, next) => {
 
     const user = await userModel.create(username, password);
 
-    req.session.userId = user.user_id;
+    req.session.user_id = user.user_id;
 
     res.status(201).send(user);
   } catch (err) {
@@ -34,7 +34,7 @@ const login = async (req, res, next) => {
       return res.status(401).send({ message: 'Invalid credentials' });
     }
 
-    req.session.userId = user.user_id;
+    req.session.user_id = user.user_id;
 
     res.send(user);
   } catch (err) {
@@ -45,11 +45,11 @@ const login = async (req, res, next) => {
 // GET /api/auth/me
 const getMe = async (req, res, next) => {
   try {
-    const { userId } = req.session;
+    const { user_id } = req.session;
 
-    if (!userId) return res.status(401).send(null);
+    if (!user_id) return res.status(401).send(null);
 
-    const user = await userModel.find(userId);
+    const user = await userModel.find(user_id);
     if (!user) return res.status(401).send(null);
 
     res.send(user);
